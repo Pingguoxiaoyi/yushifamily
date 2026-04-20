@@ -1,0 +1,34 @@
+[
+    {
+        "id": 1,
+        "name": "于兴友",
+        "lat": 28.6696,
+        "lng": 105.2202,
+        "desc": "尧家后山",
+        "generation": "——",
+        "branch": "——",
+        "photo": "photos/1.jpg"
+    },
+    {
+        "id": 2,
+        "name": "于换军",
+        "lat": 28.6842,
+        "lng": 105.2454,
+        "desc": "鹅颈田",
+        "generation": "——",
+        "branch": "——",
+        "photo": "photos/2.jpg"
+    }
+
+    {
+        "id": 3,
+        "name": "于黄氏",
+        "lat": 28.6878,
+        "lng": 105.2328,
+        "desc": "盖上",
+        "generation": "——",
+        "branch": "——",
+        "photo": "photos/3.jpg"
+    }
+
+]
