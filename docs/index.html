@@ -138,6 +138,57 @@
         setTimeout(() => map.invalidateSize(), 200);
         L.control.scale({ metric: true, imperial: false }).addTo(map);
         map.on('click', () => hideCard());
+         // ========== 新增：实时定位（绿色圆点） ==========
+        let currentLocationMarker = null;
+    let locationWatchId = null;
+    let accuracyCircle = null;
+
+    function startLocationTracking() {
+        if (!navigator.geolocation) {
+            console.warn("浏览器不支持定位");
+            return;
+        }
+        locationWatchId = navigator.geolocation.watchPosition(
+            function(position) {
+                const lat = position.coords.latitude;
+                const lng = position.coords.longitude;
+                const accuracy = position.coords.accuracy;
+
+                if (currentLocationMarker) map.removeLayer(currentLocationMarker);
+                currentLocationMarker = L.circleMarker([lat, lng], {
+                    radius: 8,
+                    color: "#fff",
+                    weight: 2,
+                    fillColor: "#00ff00",
+                    fillOpacity: 0.8
+                }).addTo(map);
+
+                if (accuracyCircle) map.removeLayer(accuracyCircle);
+                accuracyCircle = L.circle([lat, lng], {
+                    radius: accuracy,
+                    color: "#00ff00",
+                    weight: 1,
+                    fillColor: "#00ff00",
+                    fillOpacity: 0.15
+                }).addTo(map);
+
+                if (!map.hasCenterSet) {
+                    map.setView([lat, lng], 17);
+                    map.hasCenterSet = true;
+                }
+            },
+            function(error) {
+                console.error("定位失败:", error);
+            },
+            { enableHighAccuracy: true, maximumAge: 0, timeout: 10000 }
+        );
+    }
+
+    startLocationTracking();
+
+    window.addEventListener('beforeunload', function() {
+        if (locationWatchId) navigator.geolocation.clearWatch(locationWatchId);
+    });
     }
     
     // ==================== 添加标记点 ====================
